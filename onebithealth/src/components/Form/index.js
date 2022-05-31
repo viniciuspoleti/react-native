@@ -1,7 +1,13 @@
 import React, {useState} from "react"
-import { View, Text, TextInput, TouchableOpacity } from "react-native"
+import { View, 
+    Text, 
+    TextInput, 
+    TouchableOpacity,
+    Vibration 
+    } from "react-native"
 import ResultImc from "../Result";
 import styles from "./style";
+
         
     export default function Form() {
 
@@ -10,30 +16,42 @@ import styles from "./style";
         const [messageImc, setMessageImc]= useState("preencha o peso e altura")
         const [imc, setImc]= useState(null)
         const [textButton, setTextButton]= useState("Calcular")
+        const [errorMessenger, setErroMessenger] = useState(null);
+
 
         function imcCalculator(){
             return setImc((weight/(height*height)).toFixed(2))
         }
 
-        function validationImc(){
-            if(weight != null && height != null){
-                imcCalculator()
-                setHeight(null)
-                setWeight(null)
-                setMessageImc("Seu IMC é igual:")
-                setTextButton("Calcular Novamente")
-                return
+
+        function verificationImc(){
+            if(imc == null){
+                Vibration.vibrate();
+                setErroMessenger("campo obrigatório*")
             }
+          }
+
+          function validationImc() {
+            if (weight != null && height != null) {
+              imcCalculator()
+              setHeight(null)
+              setWeight(null)
+              setMessageImc("Seu imc é igual:")
+              setTextButton("Calcular Novamente")
+              setErroMessenger(null)
+              return
+            }
+            verificationImc()
             setImc(null)
             setTextButton("Calcular")
-            setMessageImc("preencha o peso e a altura")
-        }
+            setMessageImc("preencha o peso e altura") 
+          }
 
         return (
           <View style={styles.formContext}>
              <View style={styles.form}>
                 <Text style={styles.formLabel}>Altura</Text>
-
+                <Text style={styles.errorMessage}>{errorMessenger}</Text>
                 <TextInput
                 style={styles.input}
                 onChangeText={setHeight}
@@ -42,7 +60,7 @@ import styles from "./style";
                 keyboardType="numeric"/>
 
                 <Text style={styles.formLabel}>Peso</Text>
-
+                <Text style={styles.errorMessage}>{errorMessenger}</Text>
                 <TextInput
                 style={styles.input}
                 onChangeText={setWeight}
