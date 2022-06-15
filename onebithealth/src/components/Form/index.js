@@ -29,7 +29,6 @@ import styles from "./style";
           setImc(totalImc)
         }
 
-
         function verificationImc(){
             if(imc == null){
                 Vibration.vibrate();
@@ -82,7 +81,7 @@ import styles from "./style";
                 <Text style={styles.textButtonCalculator}>{textButton}</Text>
                 </TouchableOpacity>
              </Pressable>
-    :
+              :
               <View style={styles.exhibitionResultImc}>
                 <ResultImc messageResultImc ={messageImc} resultImc={imc} /> 
                 <TouchableOpacity style={styles.buttonCalculator}
@@ -108,9 +107,6 @@ import styles from "./style";
               }}
               />
 
-
-              
           </View>
         );
       }
-      
